@@ -28,7 +28,7 @@ export default function App() {
     );
 }
 
-function Document({ children, title='Remix blog' }: { children: React.ReactNode; title?: string; }) {
+function Document({ children }: { children: React.ReactNode; }) {
     return (
         <html lang='en'>
             <head>
