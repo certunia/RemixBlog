@@ -49,17 +49,21 @@ function Document({ children }: { children: React.ReactNode; }) {
 function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <nav className="navbar">
-                <Link to='/' className='logo'>Blog</Link>
+            <header className='bg-gray-200 p-3'>
+                <nav className="flex gap-3">
+                    <Link to='/' className='logo'>
+                        <img src="/pets_black.svg" alt="logo image"/>
+                    </Link>
 
-                <ul className="nav">
-                    <li>
-                        <Link to='/posts'>Posts</Link>
-                    </li>
-                </ul>
-            </nav>
+                    <ul>
+                        <li>
+                            <Link to='/posts'>Posts</Link>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
 
-            <div className="container">
+            <div className="container p-3">
                 {children}
             </div>
         </>
