@@ -1,6 +1,8 @@
-# Welcome to Remix!
+# Welcome to My Cat Blog!
 
-- [Remix Docs](https://remix.run/docs)
+- [See Demo](https://remixblog-production.up.railway.app/)
+
+Build using Remix + Prisma(SQLite)
 
 ## Development
 
