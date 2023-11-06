@@ -5,9 +5,9 @@ import Button from "~/components/Button";
 
 export const loader = ():Array<Object> => {
     return [
-        { id: 1, title: "First post", body: "This is the first post"},
-        { id: 2, title: "Second post", body: "This is the second post" },
-        { id: 3, title: "Third post", body: "This is the third post" },
+        { id: 1, title: "Look at him smoll", body: "This is the first post", img: '/cat/1.jpeg'},
+        { id: 2, title: "Look at him fancy", body: "This is the second post", img: '/cat/2.jpeg' },
+        { id: 3, title: "Look at him waiting for food", body: "This is the third post", img: '/cat/3.jpeg' },
     ];
 }
 
@@ -26,10 +26,13 @@ export default function _index() {
             <Title text='Look at my cat !'>
                 <Button to='/posts/new' text='New post'/>
             </Title>
-            <ul className='max-w-screen-sm'>
+            <ul className='grid-cols-2 grid gap-4'>
                 {data.map((post: any) => (
-                    <li key={post.id}>
-                        <a href={`/posts/${post.id}`}>{post.title}</a>
+                    <li key={post.id} className='p-3 border my-2 mr-1'>
+                        <a href={`/posts/${post.id}`} className='flex justify-center'>
+                            <img className='w-14 h-auto' src={post.img} alt={post.title}/>
+                            <span>{post.title}</span>
+                        </a>
                     </li>
                 ))}
             </ul>
