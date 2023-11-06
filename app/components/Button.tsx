@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from "@remix-run/react";
 
-function Button({text, type='link', to='/', onClick}: {text: string; type?: 'link' | 'submit'; to?: string; onClick?: () => void}) {
+function Button(
+    {text, type='link', to='/', onClick, className = ''}:
+    {text: string; type?: 'link' | 'submit'; to?: string; onClick?: () => void, className?: string}
+) {
     return (
         type === 'link' ? (
             <Link
@@ -12,7 +15,7 @@ function Button({text, type='link', to='/', onClick}: {text: string; type?: 'lin
                 {text}
             </Link>
         ) : (
-            <button type={type} onClick={onClick}>{text}</button>
+            <button type={type} onClick={onClick} className={'border p-2 border-amber-900 rounded' + className}>{text}</button>
         )
     );
 }
