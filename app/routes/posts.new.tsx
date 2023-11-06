@@ -1,19 +1,49 @@
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
-import {useRouteError, isRouteErrorResponse} from "@remix-run/react";
+import {
+    ActionFunctionArgs,
+    redirect,
+    unstable_parseMultipartFormData,
+    unstable_composeUploadHandlers,
+    unstable_createMemoryUploadHandler,
+    unstable_createFileUploadHandler,
+    NodeOnDiskFile
+} from "@remix-run/node";
+import {useRouteError, isRouteErrorResponse, Form} from "@remix-run/react";
 import Button from "~/components/Button";
-import Layout from "~/components/Layout";
-import Document from "~/components/Document";
+import {db} from '~/utils/db.server';
+import {FileUploadHandlerFilterArgs} from "@remix-run/node/dist/upload/fileUploadHandler";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const form = await request.formData();
+    // handle the image upload
+    const uploadHandler = unstable_composeUploadHandlers(
+        unstable_createFileUploadHandler({
+            maxPartSize: 5_000_000,
+            file: ({ filename }) => filename,
+            directory: './public/cat',
+            filter(args: FileUploadHandlerFilterArgs): boolean | Promise<boolean> {
+                // todo filter only images and return false if not an image
+                return true;
+            }
+        }),
+        unstable_createMemoryUploadHandler()
+    );
+
+    const form = await unstable_parseMultipartFormData(
+        request,
+        uploadHandler
+    );
+
     const title = form.get('title');
     const body = form.get('body');
+    const img = form.get('img');
+    const imgFile = img as NodeOnDiskFile;
+    const imgPath: string = '/cat/' + imgFile.name
 
-    const fields = { title, body };
+    const fields = { title, body, img: imgPath };
 
-    // todo - submit to database
+    // @ts-ignore
+    const post = await db.post.create({ data: fields });
 
-    // return redirect('/posts');
+    return redirect(`/posts/${post.id}`);
 }
 
 export function ErrorBoundary() {
@@ -52,10 +82,14 @@ function NewPost() {
             </div>
 
             <div className='max-w-screen-sm'>
-                <form method="POST" className='flex flex-wrap flex-col items-center gap-4'>
+                <Form method="POST" className='flex flex-wrap flex-col items-center gap-4' encType="multipart/form-data">
                     <div>
                         <label htmlFor="title"></label>
                         <input type="text" name='title' id='title' className='border'></input>
+                    </div>
+                    <div>
+                        <label htmlFor="img"></label>
+                        <input type="file" name='img' id='img' className='border'></input>
                     </div>
                     <div>
                         <label htmlFor="body"></label>
@@ -63,7 +97,7 @@ function NewPost() {
                     </div>
 
                     <Button type='submit' text='Save'/>
-                </form>
+                </Form>
             </div>
         </>
     )

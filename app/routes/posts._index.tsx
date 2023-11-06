@@ -2,13 +2,17 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import Title from "~/components/Title";
 import Button from "~/components/Button";
+import {db} from '~/utils/db.server';
 
-export const loader = ():Array<Object> => {
-    return [
-        { id: 1, title: "Look at him smoll", body: "This is the first post", img: '/cat/1.jpeg'},
-        { id: 2, title: "Look at him fancy", body: "This is the second post", img: '/cat/2.jpeg' },
-        { id: 3, title: "Look at him waiting for food", body: "This is the third post", img: '/cat/3.jpeg' },
-    ];
+export const loader = async (): Promise<Array<Object>> => {
+    return await db.post.findMany({
+        take: 20,
+        select: {
+            id: true,
+            title: true,
+            img: true,
+        }
+    });
 }
 
 export const meta: MetaFunction = () => {
