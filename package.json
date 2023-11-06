@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "seed": "node ./prisma/seed.js",
-    "build": "remix build",
+    "build": "remix build && npx prisma db push && npm run seed",
     "dev": "remix dev --manual",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc"
