@@ -1,6 +1,7 @@
 node_modules
 package-lock.json
 
+/prisma/dev.db
 /.cache
 /build
 /public/build
