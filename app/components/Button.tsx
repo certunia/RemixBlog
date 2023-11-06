@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "@remix-run/react";
 
-function Button({text, type='link', to='/', onClick}: {text: string; type?: string; to?: string; onClick?: () => void}) {
+function Button({text, type='link', to='/', onClick}: {text: string; type?: 'link' | 'submit'; to?: string; onClick?: () => void}) {
     return (
         type === 'link' ? (
             <Link
@@ -12,7 +12,7 @@ function Button({text, type='link', to='/', onClick}: {text: string; type?: stri
                 {text}
             </Link>
         ) : (
-            <button onClick={onClick}>{text}</button>
+            <button type={type} onClick={onClick}>{text}</button>
         )
     );
 }
