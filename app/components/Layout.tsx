@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </nav>
             </header>
 
-            <div className="container p-3">
+            <div className="p-3 max-w-screen-sm mx-auto">
                 {children}
             </div>
         </>
